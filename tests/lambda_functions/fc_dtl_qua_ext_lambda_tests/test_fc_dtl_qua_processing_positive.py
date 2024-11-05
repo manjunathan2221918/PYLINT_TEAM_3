@@ -109,10 +109,10 @@ class sub_class_s3:
                             <FlightCrewData>
                                 <crewId>227942</crewId>
                                 <licenseCode>None</licenseCode>
-                                <licenseNumber>GBR.FCL.AT.422106L</licenseNumber>
-                                <issueDate>2024-03-07</issueDate>
-                                <effectiveDate>2024-03-07</effectiveDate>
-                                <expiryDate>2040-03-07</expiryDate>
+                                <licenseNumber>GBR.FCL.AT.412106L</licenseNumber>
+                                <issueDate>2023-03-07</issueDate>
+                                <effectiveDate>2023-03-07</effectiveDate>
+                                <expiryDate>2041-03-07</expiryDate>
                             </FlightCrewData>
                         </QualificationInfo>"""
         return input_file

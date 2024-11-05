@@ -10,15 +10,15 @@ from src.lambda_functions.fc_dtl_qua_ext_dlq_process_lambda.lambda_function impo
 #pylint: disable=redefined-outer-name
 
 class Context: # pylint: disable=too-few-public-methods
-    """Class which mock the context paramter of lambda_handler
+    """Class which mock the context paramter of 318 lambda_handler
     """
     function_name = "AWS_MOCK_FUNCTION_LAMBDA"
-    aws_request_id = "AWS12345LAMBDA0989"
+    aws_request_id = "AWS345LAMBDA0989"
 
-def get_json_origin():
-    """Input SQS JSON
+def get_json_origin_315_sqs_dlq():
+    """Input SQS JSON for 315 dlq
     """
-    event = {
+    event_sqs_315 = {
     "Records": [
         {
             "body": 
@@ -38,9 +38,9 @@ def get_json_origin():
         }
     ]
 }
-    return event
+    return event_sqs_315
 
-def get_json_fake():
+def get_json_fake_sqs_dlq():
     """Input JSON false
     """
     event = {
@@ -74,7 +74,7 @@ def s3_boto():
         return s3
 
 @mock_aws
-def test_positive(s3_boto):
+def test_positive_315(s3_boto):
     """Test the custom lambda function mocking aws with moto"""
     bucket = "s3b-xml-315-iflightneo-output-dev-euwe1-01"
     key = "CrewDetails.xml"
@@ -82,17 +82,17 @@ def test_positive(s3_boto):
     s3_boto.create_bucket(Bucket=bucket)
     s3_boto.put_object(Bucket=bucket, Key=key, Body=body)
     os.environ["ERROR_BUCKET_NAME"] = "s3b-xml-315-iflightneo-output-dev-euwe1-01"
-    result = lambda_handler(get_json_origin(), Context)
+    result = lambda_handler(get_json_origin_315_sqs_dlq(), Context)
     assert result == "Dead Letter Queue"
 
 
-def test_negative_1():
+def test_negative_1_315():
     "Fail Test only for SQS"
-    result = lambda_handler(get_json_fake(), Context)
+    result = lambda_handler(get_json_fake_sqs_dlq(), Context)
     assert result == "Failed"
 
 
-def test_negative_2():
+def test_negative_2_315():
     "Fail Test for store the event message in s3 bucket by ignoring env variables"
-    result = lambda_handler(get_json_origin(), Context)
+    result = lambda_handler(get_json_origin_315_sqs_dlq(), Context)
     assert result == "Failed to put message"

@@ -67,32 +67,32 @@ def get_json_fake_318_dlq():
 
 
 @pytest.fixture
-def s3_boto():
-    """Create an S3 boto3 client and return the client object"""
+def s3_boto_318_fixture_setup():
+    """Create an dlq S3 boto3 client and return the client object"""
     with mock_aws():
         s3 = boto3.client('s3', region_name='us-east-1')
         return s3
 
 @mock_aws
-def test_positive(s3_boto):
+def test_positive_318_dlq(s3_boto_318_fixture_setup):
     """Test the custom lambda function mocking aws with moto"""
-    bucket = "s3b-xml-315-iflightneo-output-dev-euwe1-01"
+    bucket_1 = "s3b-xml-315-iflightneo-output-dev-euwe1-01"
     key = "CrewDetails.xml"
     body = "testing"
-    s3_boto.create_bucket(Bucket=bucket)
-    s3_boto.put_object(Bucket=bucket, Key=key, Body=body)
+    s3_boto_318_fixture_setup.create_bucket(Bucket=bucket_1)
+    s3_boto_318_fixture_setup.put_object(Bucket=bucket_1, Key=key, Body=body)
     os.environ["ERROR_BUCKET_NAME"] = "s3b-xml-315-iflightneo-output-dev-euwe1-01"
     result = lambda_handler(get_json_origin_318_dlq(), Context)
     assert result == "Dead Letter Queue"
 
 
-def test_negative_1():
+def test_negative_1_318_dlq():
     "Fail Test only for SQS"
     result = lambda_handler(get_json_fake_318_dlq(), Context)
     assert result == "Failed"
 
 
-def test_negative_2():
+def test_negative_2_318_dlq():
     "Fail Test for store the event message in s3 bucket by ignoring env variables"
     result = lambda_handler(get_json_origin_318_dlq(), Context)
     assert result == "Failed to put message"

@@ -128,7 +128,7 @@ def test_lambda_handler_negative(mocked_send, mocked_connection, mocked_check, m
     result = lambda_function.lambda_handler(get_json_fake(), Context)
     assert result is None
 
-def test_info_negative():
+def test_info_negative_315():
     """Test Info function with negative scenario and catch it
     """
     with pytest.raises(Exception):
@@ -136,7 +136,7 @@ def test_info_negative():
 
 @patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.s3_client')
 @patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.bk_values', ['test-bucket', 'test-key'])
-def test_decode_success(mock_s3_client):
+def test_decode_success_315(mock_s3_client):
     """test function for decoding success
 
     Args:
@@ -149,7 +149,7 @@ def test_decode_success(mock_s3_client):
 
 @patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.s3_client')
 @patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.bk_values', ['test-bucket', 'test-key'])
-def test_decode_failure(mock_s3_client):
+def test_decode_failure_315(mock_s3_client):
     """Test decode failure scenario
 
     Args:
@@ -160,7 +160,7 @@ def test_decode_failure(mock_s3_client):
         lambda_function.decode()
 
 @patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.access')
-def test_check_null(mock_access):
+def test_check_null_315(mock_access):
     """test check null function
 
     Args:
@@ -170,7 +170,7 @@ def test_check_null(mock_access):
     lambda_function.check_null()
 
 
-def test_access_failed():
+def test_access_failed_315():
     """Test Access Failed with Exception
     """
     with pytest.raises(KeyError, match = 'CPD_SECRET_ARN'):
