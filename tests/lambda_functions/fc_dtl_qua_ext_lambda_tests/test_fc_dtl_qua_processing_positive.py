@@ -144,4 +144,3 @@ def test(mock_client: Mock):
     assert result[0][1] == 'None'
     assert result[0][2][1:23] == "Element 'batchDetails'" #Batch Stop
     assert result[0][3] ==  'File Processing Complete'
-    
