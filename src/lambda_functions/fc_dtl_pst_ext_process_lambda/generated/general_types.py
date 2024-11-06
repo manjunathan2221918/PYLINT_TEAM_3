@@ -1,8 +1,12 @@
+"""general_types
+"""
+#pylint: disable=unused-import,too-few-public-methods,invalid-name
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
-from xsdata.models.datatype import XmlDuration
 import configparser
+from xsdata.models.datatype import XmlDuration
+
 
 cons_path = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
@@ -239,6 +243,8 @@ class GeneralTypes:
     :ivar schema_version: Schema version
     """
     class Meta:
+        """meta
+        """
         name = "generalTypes"
         namespace = link
 

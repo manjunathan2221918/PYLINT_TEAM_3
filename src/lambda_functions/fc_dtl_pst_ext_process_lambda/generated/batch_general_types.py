@@ -1,12 +1,16 @@
+"""batch general types
+"""
+#pylint: disable=unused-import,too-few-public-methods,import-error,too-many-instance-attributes,too-few-public-methods,invalid-name
 from dataclasses import dataclass, field
 from typing import List, Optional
+import configparser
 from xsdata.models.datatype import XmlDateTime
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.general_types import (
     CrewTypes,
     Fleet,
     Parameters,
 )
-import configparser
+
 
 cons_path = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
@@ -24,6 +28,8 @@ class BatchGeneralTypes:
     :ivar schema_version: Schema version
     """
     class Meta:
+        """meta
+        """
         name = "batchGeneralTypes"
         namespace = link
 

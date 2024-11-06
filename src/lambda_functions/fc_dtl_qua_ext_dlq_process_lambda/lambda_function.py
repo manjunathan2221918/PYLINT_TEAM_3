@@ -1,12 +1,12 @@
 "lambda_function"
+#Commenting out Pylint false positive error
+#pylint: disable=W0718,import-error
 import json
 import os
 import configparser
 from datetime import datetime
 import boto3
 from src.lambda_functions.common.logger import log_success_msg,log_error_msg, pattern
-#Commenting out Pylint false positive error
-#pylint: disable=W0718
 
 ERROR_PATH = 'src/lambda_functions/common/'
 config = configparser.ConfigParser()
@@ -32,7 +32,8 @@ def lambda_handler(event, context):
             log_success_msg(pattern,f" File Name:{file}")
             log_success_msg(pattern,"SQS Message fetched Successfully")
         except Exception:
-            log_error_msg(pattern,"fc-dtl-qua-ext-XML-500-0039", f"{error_codes['fc-dtl-qua-ext-XML-500-0039']}")
+            log_error_msg(pattern,"fc-dtl-qua-ext-XML-500-0039",
+                          f"{error_codes['fc-dtl-qua-ext-XML-500-0039']}")
             return "Failed"
         try:
             # store the event message in s3 bucket
@@ -45,5 +46,6 @@ def lambda_handler(event, context):
             log_success_msg(pattern,"Message placed successfully on text file")
             return "Dead Letter Queue"
         except Exception:
-            log_error_msg(pattern,"fc-dtl-qua-ext-XML-500-0003", f"{error_codes['fc-dtl-qua-ext-XML-500-0003']}")
+            log_error_msg(pattern,"fc-dtl-qua-ext-XML-500-0003",
+                          f"{error_codes['fc-dtl-qua-ext-XML-500-0003']}")
             return "Failed to put message"

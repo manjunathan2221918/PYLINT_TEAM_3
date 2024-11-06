@@ -1,12 +1,12 @@
 "lambda_function"
+#Commenting out Pylint false positive error
+#pylint: disable=W0718,line-too-long,import-error
 import json
 import os
 import configparser
 from datetime import datetime
 import boto3
 from src.lambda_functions.common.logger import log_success_msg,log_error_msg, pattern
-#Commenting out Pylint false positive error
-#pylint: disable=W0718
 
 ERROR_PATH = 'src/lambda_functions/common/'
 config = configparser.ConfigParser()

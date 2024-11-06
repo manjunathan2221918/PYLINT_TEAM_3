@@ -1,10 +1,13 @@
+"""metadata
+"""
+#pylint: disable=too-few-public-methods
 from dataclasses import dataclass, field
 from enum import Enum
 import configparser
 
-cons_path = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
+CONS_PATH = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
-config.read(cons_path+'constants.properties')
+config.read(CONS_PATH+'constants.properties')
 constants = config['CONSTANTS']
 link=constants['link']
 __NAMESPACE__ = link
@@ -31,6 +34,8 @@ class MetaData:
     :ivar schema_version: Schema version
     """
     class Meta:
+        """_summary_
+        """
         name = "metaData"
         namespace = link
 

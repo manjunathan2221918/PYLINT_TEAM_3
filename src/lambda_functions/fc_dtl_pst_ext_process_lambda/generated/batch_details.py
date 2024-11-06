@@ -1,10 +1,13 @@
+"""_summary_
+"""
+#pylint: disable=line-too-long,invalid-name,too-few-public-methods,unused-import,import-error
 from dataclasses import dataclass, field
 from typing import Optional
+import configparser
 from xsdata.models.datatype import XmlDateTime
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.batch_general_types import BatchAttribute
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.meta_data import ActionTypes
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.common import BaseDetails
-import configparser
 
 cons_path = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
@@ -25,6 +28,8 @@ class BatchDetails(BaseDetails):
         Only specified in the 'END' message
     """
     class Meta:
+        """meta
+        """
         name = "batchDetails"
         namespace = link
 

@@ -1,12 +1,15 @@
+"""common
+"""
+#pylint: disable=unused-import,too-few-public-methods,import-error,too-many-instance-attributes,import-error
 from dataclasses import dataclass, field
 from typing import Optional
+import configparser
 from xsdata.models.datatype import XmlDateTime
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.meta_data import ActionTypes
-import configparser
 
-cons_path = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
+CONS_PATH = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
-config.read(cons_path+'constants.properties')
+config.read(CONS_PATH+'constants.properties')
 constants = config['CONSTANTS']
 link = constants['link']
 __NAMESPACE__ = link
@@ -32,6 +35,8 @@ class BaseDetails:
     :ivar schema_version: Schema version
     """
     class Meta:
+        """meta
+        """
         namespace = link
 
     action_type: Optional[ActionTypes] = field(

@@ -1,6 +1,7 @@
 """
   filetransfer lambda
 """
+# pylint: disable=global-variable-undefined,invalid-name,global-statement,import-error
 import json
 import os
 import configparser
@@ -28,6 +29,7 @@ pattern['class_name']= os.path.basename(__file__)
 pattern['level']= 'INFO'
 pattern['unique_id']= "fc_dtl_per_ext_" + f'{current_date}'
 
+
 source_path_sftp = None
 private_key_sftp = None
 sftp_variables = None
@@ -35,13 +37,12 @@ bk_values = None
 sftp_sender = None
 transport_layer = None
 
-# pylint: disable=global-variable-undefined
 def send():
     """_summary_
 
     Connect to IBS Remote server and put the file
     """
-      
+
     try:
         remote_path = (str(sftp_variables["Destination_absolute_path_IBS"])
                        +"/"
@@ -64,9 +65,8 @@ def connection():
     connection
     """
     global sftp_sender
-    
     global transport_layer
-   
+
     try:
         log_success_msg(pattern,"Connecting IBS Remote Server")
         transport_layer = paramiko.Transport((sftp_variables["SFTP_Host"],
@@ -88,7 +88,7 @@ def access():
     global private_key_sftp
     global source_path_sftp
     global sftp_variables
-    
+
     try:
         log_success_msg(pattern,"Accessing the Env variables")
         source_path_sftp = [bk_values[0],bk_values[1]]
@@ -129,7 +129,7 @@ def info():
     Decoding message and extracting information from SQS
     """
     global bk_values
-  
+
     try:
         log_success_msg(pattern,"Extracting S3 bucket information and SQS Event information")
         s3_event = json.loads(EVENT['Records'][0]['body'])

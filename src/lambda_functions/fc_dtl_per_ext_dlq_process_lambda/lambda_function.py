@@ -1,6 +1,8 @@
 """_fc_dtl_per_ext_dlq_process_
     Fetches message from SQS and send to S3 bucket
 """
+#Disable Pylint for below false positive errors
+# pylint: disable=line-too-long, broad-except,import-error
 import json
 import os
 import configparser
@@ -12,8 +14,7 @@ ERR_PATH = 'src/lambda_functions/common/'
 config = configparser.ConfigParser()
 config.read(ERR_PATH+'errorcodes.properties')
 error_codes = config['ERROR_CODES']
-#Disable Pylint for below false positive errors
-# pylint: disable=line-too-long, broad-except
+
 def lambda_handler(event, context):
     """main invoking function
 

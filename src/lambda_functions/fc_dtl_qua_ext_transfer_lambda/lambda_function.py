@@ -2,6 +2,7 @@
 
     File Transfer Lambda
     """
+# pylint: disable=global-variable-undefined,import-error
 import json
 import os
 import configparser
@@ -28,13 +29,7 @@ pattern['class_name']= os.path.basename(__file__)
 pattern['level']= 'INFO'
 pattern['unique_id']= "fc-dtl-qua-ext_" + f'{current_date}'
 
-transport_layer = None
-sftp_sender = None
-source_path_sftp = None
-sftp_variables = None
-data_string = None
-bk_values = None
-# pylint: disable=global-variable-undefined
+
 def send():
     """_summary_
 
@@ -62,7 +57,8 @@ def connection():
     connecting to sftp
     """
     global transport_layer
-   
+    global sftp_sender
+
     try:
         log_success_msg(pattern,"Connecting IBS Remote Server")
         transport_layer = paramiko.Transport((sftp_variables["SFTP_Host"],
@@ -70,7 +66,6 @@ def connection():
         transport_layer.connect(username=sftp_variables["SFTP_USR_NAME"],
                                 pkey=paramiko.RSAKey.from_private_key(io.StringIO(private_key_sftp))
                                 )
-        global sftp_sender
         sftp_sender = paramiko.SFTPClient.from_transport(transport_layer)
     except Exception as e:
         log_error_msg(pattern,"fc-dtl-qua-ext-XML-500-0007",
@@ -112,7 +107,8 @@ def decode():
     decode
     """
     global data_string
-   
+
+
     try:
         obj = s3_client.get_object(Bucket=bk_values[0], Key=bk_values[1])
         data_string = obj['Body'].read().decode()
@@ -125,7 +121,6 @@ def info():
     """Decoding message and extracting information from SQS
     """
     global bk_values
-    
 
     try:
         log_success_msg(pattern,"Extracting S3 bucket information and SQS Event information")

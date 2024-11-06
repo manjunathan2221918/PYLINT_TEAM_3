@@ -2,6 +2,7 @@
 
     file Transfer lambda
     """
+# pylint: disable=global-variable-undefined,line-too-long,import-error
 import json
 import os
 import configparser
@@ -29,7 +30,7 @@ pattern['class_name']= os.path.basename(__file__)
 pattern['level']= 'INFO'
 pattern['unique_id']= "fc-dtl-pst-ext_" + f'{current_date}'
 
-# pylint: disable=global-variable-undefined
+
 def send():
     """_summary_
 

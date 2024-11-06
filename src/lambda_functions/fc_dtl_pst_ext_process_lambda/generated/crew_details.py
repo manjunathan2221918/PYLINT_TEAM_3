@@ -1,14 +1,18 @@
+"""crew_details
+"""
+#pylint: disable=unused-import,too-few-public-methods,import-error
 from dataclasses import dataclass, field
 from typing import List
+import configparser
 from xsdata.models.datatype import XmlDateTime
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.crew_general_types import CrewInfo
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.meta_data import ActionTypes
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.common import BaseDetails
-import configparser
 
-cons_path = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
+
+CONS_PATH = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
-config.read(cons_path+'constants.properties')
+config.read(CONS_PATH+'constants.properties')
 constants = config['CONSTANTS']
 link=constants['link']
 
@@ -22,6 +26,8 @@ class CrewDetails(BaseDetails):
     :ivar crew_info: Crew information
     """
     class Meta:
+        """metadata
+        """
         name = "crewDetails"
         namespace = link
 

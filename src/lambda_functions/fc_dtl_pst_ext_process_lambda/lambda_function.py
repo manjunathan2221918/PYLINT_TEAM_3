@@ -1,4 +1,6 @@
 "lambda function"
+#Commenting out Pylint false positive error
+#pylint: disable=C0301,R0913,R0917,line-too-long,global-variable-undefined,import-error,import-error
 import json
 from datetime import datetime,timezone
 import os
@@ -13,8 +15,7 @@ from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.meta_data impo
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.crew_general_types import CrewPostings,CrewInfo
 from src.lambda_functions.common.logger import log_success_msg,log_error_msg, pattern
 
-#Commenting out Pylint false positive error
-#pylint: disable=C0301,R0913,R0917
+
 
 #getting values from constant properties file
 ERROR_PATH = 'src/lambda_functions/common/'
@@ -233,7 +234,6 @@ def lambda_handler(event, context):
     if not data:
         log_error_msg(pattern,"fc-dtl-pst-ext-XML-300-0004", error_codes['fc-dtl-pst-ext-XML-300-0004'])
         raise ValueError('File is empty')
-   
     log_success_msg(pattern,"File has Valid data")
     lst_data=data.splitlines()
     result_main = mainfunction(lst_data)

@@ -1,4 +1,6 @@
 "lambda function"
+#Commenting out Pylint false positive error
+#pylint: disable=C0301,E1111,global-variable-undefined,import-error
 import json
 import xml.etree.ElementTree as ET
 from datetime import datetime,timezone
@@ -10,8 +12,6 @@ import boto3
 from defusedxml.ElementTree import fromstring
 from src.lambda_functions.common.logger import log_success_msg,log_error_msg, pattern
 
-#Commenting out Pylint false positive error
-#pylint: disable=C0301,E1111
 
 ERROR_PATH = 'src/lambda_functions/common/'
 CONSTANT_PATH = 'src/lambda_functions/fc_dtl_qua_ext_process_lambda/'
@@ -226,15 +226,27 @@ def file_write(messagecount,crew_details):
         log_success_msg(pattern,"No Crew Records found in the file")
 
 def lambda_handler(event, context):
-    "function will start once lambda invoked"
+    """main function
+
+    Args:
+        event (_type_): _description_
+        context (_type_): _description_
+
+    Raises:
+        "function will start once lambda invoked"
+
+    Returns:
+        _type_: _description_
+    """
+    global s3_client
     print(context.function_name)
     #setting syntax for logger
     current_date=datetime.now().strftime("%d%m%Y%H%M%S%f")[:-3]
     pattern['class_name']= os.path.basename(__file__)
     pattern['level']= 'INFO'
     pattern['unique_id']= "fc-dtl-qua-ext_" + f'{current_date}'
-    global s3_client
     s3_client = boto3.client('s3')
+
     try:
         #Read SQS message
         s3_event = json.loads(event['Records'][0]['body'])

@@ -1,4 +1,6 @@
 "lambda function"
+#Commenting out Pylint false positive error
+#pylint: disable=C0301,E1111,global-variable-undefined,import-error
 import json
 import xml.etree.ElementTree as ET
 from datetime import datetime,timezone
@@ -9,8 +11,6 @@ import boto3
 from defusedxml.ElementTree import fromstring
 from src.lambda_functions.common.logger import log_success_msg,log_error_msg, pattern
 
-#Commenting out Pylint false positive error
-#pylint: disable=C0301,E1111
 
 ERROR_PATH = 'src/lambda_functions/common/'
 CONSTANT_PATH = 'src/lambda_functions/fc_dtl_per_ext_process_lambda/'
@@ -302,6 +302,7 @@ def file_write(messagecount,crew_details):
 
 def lambda_handler(event, context):
     "main lambda function"
+    global s3_client
     print(context.function_name)
     current_date=datetime.now().strftime("%d%m%Y%H%M%S%f")[:-3]
     pattern['class_name']= os.path.basename(__file__)
@@ -314,7 +315,7 @@ def lambda_handler(event, context):
     except Exception as e:
         log_error_msg(pattern,"fc_dtl_per_ext-XML-500-0036",error_codes['fc_dtl_per_ext-XML-500-0036'])
         raise e
-    global s3_client
+
     s3_client = boto3.client('s3')
     caller_main = main_function(s3_event)
     return_message_db_connect = [caller_main, 'Values Fetched and Processed']

@@ -1,6 +1,10 @@
+"""crew_general
+"""
+#pylint: disable=line-too-long,,unused-import,too-few-public-methods,invalid-name,too-many-lines,too-many-instance-attributes,import-error
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
+import configparser
 from xsdata.models.datatype import XmlDate, XmlDateTime, XmlDuration, XmlTime
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.general_types import (
     CrewTypes,
@@ -8,7 +12,6 @@ from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.general_types 
     Parameters,
     PeriodTypes,
 )
-import configparser
 
 cons_path = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
@@ -60,6 +63,8 @@ class CrewGeneralTypes:
     :ivar schema_version: Schema version
     """
     class Meta:
+        """meta
+        """
         name = "crewGeneralTypes"
         namespace = link
 
