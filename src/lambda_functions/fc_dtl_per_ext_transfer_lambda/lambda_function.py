@@ -47,9 +47,9 @@ def send():
         remote_path = (str(sftp_variables["Destination_absolute_path_IBS"])
                        +"/"
                        +str(source_path_sftp[1]))
-        download_path = str(tmp_path)+source_path_sftp[1]
-        s3_client.download_file(source_path_sftp[0], source_path_sftp[1], download_path)
-        sftp_sender.put(download_path, remote_path)
+        download_path_local_314 = str(tmp_path)+source_path_sftp[1]
+        s3_client.download_file(source_path_sftp[0], source_path_sftp[1], download_path_local_314)
+        sftp_sender.put(download_path_local_314, remote_path)
         sftp_sender.close()
         transport_layer.close()
         log_success_msg(pattern,"INTERFACE - 314 = File has been sent to IBS Remote Server")

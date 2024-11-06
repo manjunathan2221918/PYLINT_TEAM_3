@@ -16,7 +16,7 @@ config.read(ERR_PATH+'errorcodes.properties')
 error_codes = config['ERROR_CODES']
 
 def lambda_handler(event, context):
-    """main invoking function
+    """main invoking function for dlq
 
     Args:
         event (_json_): Information and talks which resource triggered this lambda
@@ -25,7 +25,7 @@ def lambda_handler(event, context):
     Returns:
         String: Dead Letter Queue
     """
-    print(context.function_name)
+    print(context.log_group_name)
     current_date=datetime.now().strftime("%d%m%Y%H%M%S%f")[:-3]
     pattern['class_name']= os.path.basename(__file__)
     pattern['level']= 'INFO'

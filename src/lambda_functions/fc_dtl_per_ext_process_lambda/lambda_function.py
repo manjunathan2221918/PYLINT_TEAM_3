@@ -12,12 +12,12 @@ from defusedxml.ElementTree import fromstring
 from src.lambda_functions.common.logger import log_success_msg,log_error_msg, pattern
 
 
-ERROR_PATH = 'src/lambda_functions/common/'
-CONSTANT_PATH = 'src/lambda_functions/fc_dtl_per_ext_process_lambda/'
+ERROR_PATH_314 = 'src/lambda_functions/common/'
+CONSTANT_PATH_314 = 'src/lambda_functions/fc_dtl_per_ext_process_lambda/'
 config = configparser.RawConfigParser()
-config.read(ERROR_PATH+'errorcodes.properties')
+config.read(ERROR_PATH_314+'errorcodes.properties')
 error_codes = config['ERROR_CODES']
-config.read(CONSTANT_PATH+'constants.properties')
+config.read(CONSTANT_PATH_314+'constants.properties')
 constants = config['CONSTANTS']
 
 start = constants ['batchstart']
@@ -301,9 +301,9 @@ def file_write(messagecount,crew_details):
             raise e
 
 def lambda_handler(event, context):
-    "main lambda function"
+    "main lambda function for 314"
     global s3_client
-    print(context.function_name)
+    print(context.aws_request_id)
     current_date=datetime.now().strftime("%d%m%Y%H%M%S%f")[:-3]
     pattern['class_name']= os.path.basename(__file__)
     pattern['level']= 'INFO'

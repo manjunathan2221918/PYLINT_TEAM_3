@@ -15,7 +15,7 @@ class Context:
      context
     """
     function_name = "AWS_MOCK_FUNCTION_LAMBDA"
-    aws_request_id = "AWS12345LAMBDA0989"
+    log_group_name = "log_aws_cloud_watch"
 
 def get_json_origin():
     """
