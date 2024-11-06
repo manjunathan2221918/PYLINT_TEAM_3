@@ -1,2 +1,6 @@
 [MASTER]
+<<<<<<< HEAD
 ignore=tests
+=======
+ignore=src
+>>>>>>> 60b7b57f0ec789dd69bccc4f69f9e0de2196be21

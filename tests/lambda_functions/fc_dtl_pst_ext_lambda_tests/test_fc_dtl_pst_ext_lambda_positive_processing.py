@@ -26,7 +26,7 @@ def enc_var():
 def get_json_origin():
     """ SQS mocking
     """
-    event = {
+    event_sqs_json = {
     "Records": [
         {
             "body": 
@@ -34,14 +34,19 @@ def get_json_origin():
             {"Records":
             [
             {"s3":
-            {"s3SchemaVersion":"1.0","configurationId":"tf-s3-queue-20240517160621839900000005","bucket":{"name":"s3b-xml-318-iflightneo-output-dev-euwe1-01","ownerIdentity":{"principalId":"AQZLYVWEEZIW8"},"arn":"arn:aws:s3: : :s3b-xml-314-iflightneo-output-dev-euwe1-01"},"object":{"key":"CrewDetails.xml","size":11839,"eTag":"12ab75463f210b345732f6508f3c89c7"}}}
+            {"s3SchemaVersion":"1.0","configurationId":"tf-s3-queue-20240517160621839900000005",
+            "bucket":{"name":"s3b-xml-318-iflightneo-output-dev-euwe1-01",
+            "ownerIdentity":{"principalId":"AQZLYVWEEZIW8"},
+            "arn":"arn:aws:s3: : :s3b-xml-314-iflightneo-output-dev-euwe1-01"},
+            "object":{"key":"CrewDetails.xml","size":11839,
+            "eTag":"12ab75463f210b345732f6508f3c89c7"}}}
             ]
             }
             """
         }
     ]
 }
-    return event
+    return event_sqs_json
 
 class sub_class_s3:
     """

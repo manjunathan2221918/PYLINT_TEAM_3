@@ -8,19 +8,19 @@ from moto import mock_aws
 import pytest
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.lambda_function import lambda_handler
 
-KEY_FILE = 'CrewDetails.xml'
+#KEY_FILE = 'CrewDetails.xml'
 
 class Context:
-    """Mocking the Context object of lambda function using
+    """Mocking the Context object of 318 PR lambda function using
        class attribute
     """
-    function_name = "79104EXAMPLEB723"
-    aws_request_id = "HHJSKKK"
+    function_name = "794EXAMPLEB723"
+    aws_request_id = "HHidKK"
 
-def get_json_fake():
+def get_json_fake_318_pr():
     """ SQS mocking
     """
-    event = {
+    event_sqs_318_ = {
     "Records": [
         {
             "dy": 
@@ -35,13 +35,13 @@ def get_json_fake():
         }
     ]
 }
-    return event
+    return event_sqs_318_
 
-def get_json_origin():
+def get_json_origin_318_pr():
     """
     mocking
     """
-    event = {
+    event_318_sqs = {
     "Records": [
         {
             "body": 
@@ -56,7 +56,7 @@ def get_json_origin():
         }
     ]
 }
-    return event
+    return event_318_sqs
 
 class sub_class_s3:
     """mocking class
@@ -92,7 +92,7 @@ class Mockers3:
         """
         return mocking_sub_class_s3_obj
 
-class Mockergets3:
+class Mockergets3class:
     """mocking class
     """
     def read(self):
@@ -101,11 +101,11 @@ class Mockergets3:
         return mocking_sub_class_gets3_obj
 
 mocking_s3_object = Mockers3()
-mocking_s3_get_object=Mockergets3()
+mocking_s3_get_object=Mockergets3class()
 mocking_s3_put_object= Mockers3()
 
 @patch("src.lambda_functions.fc_dtl_pst_ext_transfer_lambda.lambda_function.boto3.client")
-def test(mock_client: Mock):
+def test_neg(mock_client: Mock):
 
     """info function call
 
@@ -114,7 +114,7 @@ def test(mock_client: Mock):
     mock_client.return_value.put_object.return_value = {"Body": mocking_s3_put_object}
 
     with pytest.raises(ValueError, match = 'File is empty'):
-        lambda_handler(get_json_origin(), Context)
+        lambda_handler(get_json_origin_318_pr(), Context)
 
 @mock_aws
 def test_1():
@@ -122,7 +122,7 @@ def test_1():
 
     """
     with pytest.raises(Exception):
-        lambda_handler(get_json_fake(), Context)
+        lambda_handler(get_json_fake_318_pr(), Context)
 
 @mock_aws
 def test_2():
@@ -130,10 +130,10 @@ def test_2():
 
     """
     with pytest.raises(Exception):
-        lambda_handler(get_json_origin(), Context)
+        lambda_handler(get_json_origin_318_pr(), Context)
 
 # @patch("src.lambda_functions.fc_dtl_pst_ext_transfer_lambda.lambda_function.boto3.client")
 # def test_3(mock_client: Mock):
 #     mock_client.return_value.get_object.return_value = {"Body": mocking_s3_get_object}
 #     with pytest.raises(Exception):
-#         lambda_handler(get_json_origin(), Context)
+#         lambda_handler(get_json_origin_318_pr(), Context)

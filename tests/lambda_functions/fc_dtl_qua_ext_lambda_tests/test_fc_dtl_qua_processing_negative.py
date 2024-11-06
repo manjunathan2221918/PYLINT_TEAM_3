@@ -92,12 +92,12 @@ class sub_class_gets3:
         input_file = """<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
                         <QualificationInfo>
                             <FlightCrewData>
-                                <crewId>227942</crewId>
+                                <crewId>222942</crewId>
                                 <licenseCode>LIC</licenseCode>
-                                <licenseNumber>GBR.FCL.AT.422106L</licenseNumber>
-                                <issueDate>2024-03-07</issueDate>
-                                <effectiveDate>2024-03-07</effectiveDate>
-                                <expiryDate>2040-03-07</expiryDate>
+                                <licenseNumber>GBR.FCL.AT.412106L</licenseNumber>
+                                <issueDate>2025-03-07</issueDate>
+                                <effectiveDate>2025-03-07</effectiveDate>
+                                <expiryDate>2050-03-07</expiryDate>
                             </FlightCrewData>
                         </QualificationInfo>"""
         return input_file
