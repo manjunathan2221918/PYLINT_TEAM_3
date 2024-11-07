@@ -1,7 +1,6 @@
-"""_summary_
-
-    dlq pytet
-    """
+"""
+test_fc_dtl_per_ext_lambda_dlq pytest for  fc_dtl_per_ext_dlq_lambda
+"""
 import os
 import boto3
 import pytest

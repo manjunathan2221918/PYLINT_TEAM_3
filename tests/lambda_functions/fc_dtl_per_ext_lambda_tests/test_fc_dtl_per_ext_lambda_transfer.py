@@ -1,7 +1,5 @@
-"""New pytest for transfer_lambda for redundancy
-
-    Returns:
-        Assertion on each functions
+"""
+test_fc_dtl_per_ext_lambda_transfer positive pytest for fc_dtl_per_ext_transfer_lambda
 """
 #New pytest for transfer_lambda for redundancy
 #from main import lambda_handler, info, decode, check_null, connection, send, access

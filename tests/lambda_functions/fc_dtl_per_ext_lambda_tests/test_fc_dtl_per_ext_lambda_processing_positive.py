@@ -1,7 +1,6 @@
-"""_summary_
-
-    pytest positive_process
-    """
+"""
+test_fc_dtl_per_ext_lambda_processing_positive positive pytest for fc_dtl_per_ext_process_lambda
+"""
 import os
 from unittest.mock import patch
 from unittest.mock import Mock

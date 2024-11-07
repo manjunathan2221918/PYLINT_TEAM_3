@@ -1,5 +1,5 @@
 """
-New pytest for transfer_lambda for redundancy
+test_fc_dtl_pst_ext_lambda_ftl  pytest for fc_dtl_pst_ext_transfer_lambda
 """
 #pylint: disable=unused-import
 from unittest.mock import MagicMock, patch, Mock, mock_open

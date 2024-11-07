@@ -1,4 +1,5 @@
-"""Test File for 318 DLQ 
+"""
+test_fc_dtl_pst_ext_lambda_dlq pytest for  fc_dtl_pst_ext_dlq_lambda
 """
 import os
 import pytest
