@@ -1,4 +1,7 @@
-"lambda function"
+"""
+fc_dtl_per_ext_process_lambda fetches file from from input s3 and
+applying process logic and send to output s3
+"""
 #Commenting out Pylint false positive error
 #pylint: disable=C0301,E1111,global-variable-undefined,import-error
 import json

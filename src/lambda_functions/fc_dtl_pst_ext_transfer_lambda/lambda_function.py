@@ -1,7 +1,6 @@
-"""_summary_
-
-    file Transfer lambda
-    """
+"""fc_dtl_pst_ext_transfer_lambda
+  fetches file from S3 and send the file to IBS
+"""
 # pylint: disable=global-variable-undefined,line-too-long,import-error
 import json
 import os
@@ -32,8 +31,7 @@ pattern['unique_id']= "fc-dtl-pst-ext_" + f'{current_date}'
 
 
 def send():
-    """_summary_
-
+    """
     Connect to IBS Remote server and put the file
     """
     try:
@@ -53,9 +51,8 @@ def send():
         raise e
 
 def connection():
-    """_summary_
-
-    Connecting to sftp
+    """
+    Establish an SFTP connection using Pramiko with SFTP connection variables and private key.
     """
     try:
         log_success_msg(pattern,"Connecting IBS Remote Server")
@@ -73,8 +70,7 @@ def connection():
         raise e
 
 def access():
-    """_summary_
-
+    """
     Accessing the configuration file to fetch the information of source and client  
     """
     try:
@@ -102,9 +98,9 @@ def access():
         raise e
 
 def decode():
-    """_summary_
-
-   decode
+    """
+    retrieves obj from s3 bucket using the s3_client and
+    it decodes the content into string and stores in the global variable 'data_string'
     """
     try:
         obj = s3_client.get_object(Bucket=bk_values[0], Key=bk_values[1])
@@ -116,8 +112,7 @@ def decode():
         raise e
 
 def info():
-    """_summary_
-
+    """
    Decoding message and extracting information from SQS
     """
     try:
@@ -136,8 +131,7 @@ def info():
 
 
 def check_null():
-    """_summary_
-
+    """
     checking file is empty or not
     """
     if not data_string:
@@ -148,10 +142,8 @@ def check_null():
     access()
 
 def lambda_handler(eve, context):
-    """_summary_
-
-    main function
-        
+    """
+    Connecting with AWS
     """
     global event, lambda_name
     event = eve

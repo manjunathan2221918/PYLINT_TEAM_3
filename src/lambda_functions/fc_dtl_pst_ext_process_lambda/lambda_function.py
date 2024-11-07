@@ -1,4 +1,7 @@
-"lambda function"
+"""
+fc_dtl_pst_ext_process_lambda fetches file from from input s3 and
+applying process logic and send to output s3
+"""
 #Commenting out Pylint false positive error
 #pylint: disable=C0301,R0913,R0917,line-too-long,global-variable-undefined,import-error,import-error
 import json
@@ -203,7 +206,7 @@ def mainfunction(lst_data):
     return ['main_func completed',final_func]
 
 def lambda_handler(event, context):
-    "main lambda function"
+    "Connecting with AWS"
     print(context.function_name)
     current_date=datetime.now().strftime("%d%m%Y%H%M%S%f")[:-3]
     pattern['class_name']= os.path.basename(__file__)
