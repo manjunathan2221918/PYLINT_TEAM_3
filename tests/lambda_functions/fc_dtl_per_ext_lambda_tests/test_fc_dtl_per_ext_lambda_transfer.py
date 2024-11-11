@@ -249,7 +249,7 @@ def test_connection_success():
 @patch('src.lambda_functions.fc_dtl_per_ext_transfer_lambda.lambda_function.s3_client')
 @patch('src.lambda_functions.fc_dtl_per_ext_transfer_lambda.lambda_function.sftp_sender')
 @patch('src.lambda_functions.fc_dtl_per_ext_transfer_lambda.lambda_function.transport_layer')
-@patch('src.lambda_functions.fc_dtl_per_ext_transfer_lambda.lambda_function.sftp_variables', {'Destination_absolute_path_IBS': 'remote'})
+@patch('src.lambda_functions.fc_dtl_per_ext_transfer_lambda.lambda_function.sftp_variables_pst_per', {'Absolute_path_IBS': 'remote'})
 def test_send_success(mock_transport_layer, mock_sftp_sender, mock_s3_client):
     """send test
 

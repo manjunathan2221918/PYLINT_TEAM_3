@@ -76,11 +76,11 @@ def enc_var():
     os.environ['CPD_SFTP_PORT'] = "22"
     os.environ['CPD_SFTP_USER_NAME'] = "user"
 
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.info')
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.decode')
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.check_null')
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.connection')
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.send')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.info_qua')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.decode_qua')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.check_null_qua')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.connection_qua')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.send_qua')
 def test_lambda_handler(mocked_send, mocked_connection, mocked_check, mocked_decode, mocked_info):
     """test lambda_handler
 
@@ -103,13 +103,13 @@ def test_lambda_handler(mocked_send, mocked_connection, mocked_check, mocked_dec
 def test_info():
     """Test Info function alone
     """
-    lambda_function.info()
+    lambda_function.info_qua()
 
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.info')
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.decode')
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.check_null')
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.connection')
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.send')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.info_qua')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.decode_qua')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.check_null_qua')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.connection_qua')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.send_qua')
 def test_lambda_handler_negative(mocked_send, mocked_connection, mocked_check, mocked_decode, mocked_info):
     """test lambda_handler negative scenario
 
@@ -133,7 +133,7 @@ def test_info_negative_315():
     """Test Info function with negative scenario and catch it
     """
     with pytest.raises(Exception):
-        lambda_function.info()
+        lambda_function.info_qua()
 
 @patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.s3_client')
 @patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.bk_values', ['test-bucket', 'test-key'])
@@ -146,7 +146,7 @@ def test_decode_success_315(mock_s3_client):
     mock_obj = MagicMock()
     mock_obj['Body'].read.return_value = b'some data'
     mock_s3_client.get_object.return_value = mock_obj
-    lambda_function.decode()
+    lambda_function.decode_qua()
 
 @patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.s3_client')
 @patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.bk_values', ['test-bucket', 'test-key'])
@@ -158,9 +158,9 @@ def test_decode_failure_315(mock_s3_client):
     """
     mock_s3_client.get_object.side_effect = Exception('S3 Error')
     with pytest.raises(Exception):
-        lambda_function.decode()
+        lambda_function.decode_qua()
 
-@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.access')
+@patch('src.lambda_functions.fc_dtl_qua_ext_transfer_lambda.lambda_function.access_qua')
 def test_check_null_315(mock_access):
     """test check null function
 
@@ -168,14 +168,14 @@ def test_check_null_315(mock_access):
         mock_access (obj): return None
     """
     mock_access.return_value = None
-    lambda_function.check_null()
+    lambda_function.check_null_qua()
 
 
 def test_access_failed_315():
     """Test Access Failed with Exception
     """
     with pytest.raises(KeyError, match = 'CPD_SECRET_ARN'):
-        lambda_function.access()
+        lambda_function.access_qua()
 
 mock_sftp_variables = {
     "Region": "us-west-2",
@@ -210,7 +210,7 @@ def test_access_success(mock_boto_client):
     global private_key_sftp
     private_key_sftp = None
     with pytest.raises(Exception):
-        lambda_function.access()
+        lambda_function.access_qua()
         assert private_key_sftp == 'mocked_private_key'
         mock_boto_client.assert_called_once_with('secretsmanager', region_name=mock_sftp_variables["Region"])
         mock_client.get_secret_value.assert_called_once_with(SecretId=mock_sftp_variables["SSH_Key"])
@@ -225,7 +225,7 @@ def test_connection(mock_transport):
     mock_transport_instance = MagicMock()
     mock_transport.side_effect = Exception('Connection Failed')
     with pytest.raises(Exception, match = 'Connection Failed'):
-        lambda_function.connection()
+        lambda_function.connection_qua()
 
 sftp_variables = {
     "SFTP_Host": "host",
@@ -245,7 +245,7 @@ def test_connection_success():
                 mock_rsa_key_instance = mock_rsa_key.return_value
                 # mock_sftp_client_instance = mock_sftp_client.return_value
                 with pytest.raises(Exception):
-                    lambda_function.connection()
+                    lambda_function.connection_qua()
 
                     mock_transport.assert_called_once_with(('host', 22))
                     # mock_transport_instance.connect.assert_called_once_with(
@@ -270,7 +270,7 @@ def test_send_success(mock_transport_layer, mock_sftp_sender, mock_s3_client):
     mock_sftp_sender.put = MagicMock()
     mock_sftp_sender.close = MagicMock()
     mock_transport_layer.close = MagicMock()
-    lambda_function.send()
+    lambda_function.send_qua()
     mock_s3_client.download_file.assert_called_once_with('s3b-xml-314-iflightneo-output-dev-euwe1-01', 'CrewDetails.xml', '/tmp/'+'CrewDetails.xml')
     mock_sftp_sender.put.assert_called_once_with('/tmp/'+'CrewDetails.xml', 'remote/'+'CrewDetails.xml')
     mock_sftp_sender.close.assert_called_once()
@@ -292,7 +292,7 @@ def test_send_failure(mock_transport_layer, mock_sftp_sender, mock_s3_client):
     mock_s3_client.download_file = MagicMock(side_effect=Exception("Download failed"))
 
     with pytest.raises(Exception, match="Download failed"):
-        lambda_function.send()
+        lambda_function.send_qua()
 
     # Ensure other methods are not called in case of failure
     mock_sftp_sender.put.assert_not_called()

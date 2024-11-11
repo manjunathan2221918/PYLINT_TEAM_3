@@ -10,9 +10,9 @@ from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.meta_data impo
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.common import BaseDetails
 
 
-CONS_PATH = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
+CONS_PATH_CD = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
-config.read(CONS_PATH+'constants.properties')
+config.read(CONS_PATH_CD+'constants.properties')
 constants = config['CONSTANTS']
 link=constants['link']
 

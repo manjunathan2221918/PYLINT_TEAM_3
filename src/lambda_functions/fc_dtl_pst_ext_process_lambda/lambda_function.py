@@ -23,11 +23,11 @@ from src.lambda_functions.common.logger import log_success_msg,log_error_msg, pa
 #getting values from constant properties file
 ERROR_PATH = 'src/lambda_functions/common/'
 CONSTANT_PATH = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
-config = configparser.RawConfigParser()
-config.read(ERROR_PATH+'errorcodes.properties')
-error_codes = config['ERROR_CODES']
-config.read(CONSTANT_PATH+'constants.properties')
-constants = config['CONSTANTS']
+config_qua = configparser.RawConfigParser()
+config_qua.read(ERROR_PATH+'errorcodes.properties')
+error_codes = config_qua['ERROR_CODES']
+config_qua.read(CONSTANT_PATH+'constants.properties')
+constants = config_qua['CONSTANTS']
 
 batchType=constants['batchType']
 originator=constants['originator']
@@ -216,11 +216,11 @@ def lambda_handler(event, context):
     s3_client = boto3.client('s3')
     try:
         #Read SQS message
-        s3_event = json.loads(event['Records'][0]['body'])
+        s3_event_pst = json.loads(event['Records'][0]['body'])
         log_success_msg(pattern,"SQS Message fetched Successfully")
-        bucket = s3_event['Records'][0]['s3']['bucket']['name']
+        bucket = s3_event_pst['Records'][0]['s3']['bucket']['name']
         log_success_msg(pattern,f"Bucket_Name:{bucket}")
-        key = s3_event['Records'][0]['s3']['object']['key']
+        key = s3_event_pst['Records'][0]['s3']['object']['key']
         log_success_msg(pattern,f"File_Name:{key}")
     except Exception as e:
         log_error_msg(pattern,"fc-dtl-pst-ext-XML-500-0036", error_codes['fc-dtl-pst-ext-XML-500-0036'])

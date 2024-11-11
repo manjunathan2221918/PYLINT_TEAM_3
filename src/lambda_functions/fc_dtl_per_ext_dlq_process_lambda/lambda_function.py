@@ -31,15 +31,15 @@ def lambda_handler(event, context):
     pattern['level']= 'INFO'
     pattern['unique_id']= "fc_dtl_per_ext_" + f'{current_date}'
 
-    for s3_rec in event['Records']:
+    for s3_rec_var in event['Records']:
         try:
             # read sqs message
-            message_body = s3_rec['body']
-            data=json.loads(message_body)
+            message_body_per = s3_rec_var['body']
+            data=json.loads(message_body_per)
             bucket = data['Records'][0]['s3']['bucket']['name']
             log_success_msg(pattern,f" Bucket Name: {bucket}")
-            file = data['Records'][0]['s3']['object']['key']
-            log_success_msg(pattern,f" File Name:{file}")
+            file_ = data['Records'][0]['s3']['object']['key']
+            log_success_msg(pattern,f" File Name:{file_}")
             log_success_msg(pattern,"SQS Message fetched Successfully")
         except Exception:
             log_error_msg(pattern,"fc_dtl_per_ext-XML-500-0039", error_codes['fc_dtl_per_ext-XML-500-0039'])
@@ -49,8 +49,8 @@ def lambda_handler(event, context):
             bucket_name = os.environ['ERROR_BUCKET_NAME']
             timestamp=(datetime.now()).strftime("%d%m%Y%H%M%S")
             file_name = f"fc-dtl-per-ext_{timestamp}.txt"
-            s3 = boto3.client('s3')
-            s3.put_object(Bucket=bucket_name, Key=file_name, Body=message_body)
+            s3_ = boto3.client('s3')
+            s3_.put_object(Bucket=bucket_name, Key=file_name, Body=message_body_per)
             log_success_msg(pattern,f"Output File Name:{file_name}")
             log_success_msg(pattern,"Message placed successfully on text file")
             return "Dead Letter Queue"

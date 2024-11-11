@@ -12,9 +12,9 @@ from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.general_types 
 )
 
 
-cons_path = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
+cons_path_gt = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
-config.read(cons_path+'constants.properties')
+config.read(cons_path_gt+'constants.properties')
 constants = config['CONSTANTS']
 link=constants['link']
 __NAMESPACE__ = link

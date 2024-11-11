@@ -16,10 +16,10 @@ error_codes = config['ERROR_CODES']
 def lambda_handler(event, context):
     "main lambda function"
     print(context.function_name)
-    current_date=datetime.now().strftime("%d%m%Y%H%M%S%f")[:-3]
+    current_date_qua=datetime.now().strftime("%d%m%Y%H%M%S%f")[:-3]
     pattern['class_name']= os.path.basename(__file__)
     pattern['level']= 'INFO'
-    pattern['unique_id']= "fc-dtl-qua-ext_" + f'{current_date}'
+    pattern['unique_id']= "fc-dtl-qua-ext_" + f'{current_date_qua}'
 
     for s3_rec in event['Records']:
         try:

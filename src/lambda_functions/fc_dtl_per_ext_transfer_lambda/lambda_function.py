@@ -16,12 +16,12 @@ from src.lambda_functions.common.logger import log_success_msg,log_error_msg, pa
 ERR_PATH = 'src/lambda_functions/common/'
 CONS_PATH = 'src/lambda_functions/fc_dtl_per_ext_transfer_lambda/'
 
-config = configparser.ConfigParser()
-config.read(ERR_PATH+'errorcodes.properties')
-error_codes = config['ERROR_CODES']
+config_per = configparser.ConfigParser()
+config_per.read(ERR_PATH+'errorcodes.properties')
+error_codes = config_per['ERROR_CODES']
 
-config.read(CONS_PATH+'constants.properties')
-constants = config['CONSTANTS']
+config_per.read(CONS_PATH+'constants.properties')
+constants = config_per['CONSTANTS']
 
 tmp_path = constants['lambda_tmp_path']
 
@@ -33,7 +33,7 @@ pattern['unique_id']= "fc_dtl_per_ext_" + f'{current_date}'
 
 source_path_sftp = None
 private_key_sftp = None
-sftp_variables = None
+sftp_variables_pst_per = None
 bk_values = None
 sftp_sender = None
 transport_layer = None
@@ -44,7 +44,7 @@ def ftl_send():
     """
 
     try:
-        remote_path = (str(sftp_variables["Destination_absolute_path_IBS"])
+        remote_path = (str(sftp_variables_pst_per["Absolute_path_IBS"])
                        +"/"
                        +str(source_path_sftp[1]))
         download_path_local_314 = str(tmp_path)+source_path_sftp[1]
@@ -68,9 +68,9 @@ def ftl_connection():
 
     try:
         log_success_msg(pattern,"Connecting IBS Remote Server")
-        transport_layer = paramiko.Transport((sftp_variables["SFTP_Host"],
-                                              int(sftp_variables["SFTP_Port"])))
-        transport_layer.connect(username=sftp_variables["SFTP_USR_NAME"],
+        transport_layer = paramiko.Transport((sftp_variables_pst_per["SFTP_Host_"],
+                                              int(sftp_variables_pst_per["SFTP_Port_"])))
+        transport_layer.connect(username=sftp_variables_pst_per["SFTP_USR_NAME"],
                                 pkey=paramiko.RSAKey.from_private_key(io.StringIO(private_key_sftp))
                                 )
         sftp_sender = paramiko.SFTPClient.from_transport(transport_layer)
@@ -85,23 +85,24 @@ def ftl_access():
     """
     global private_key_sftp
     global source_path_sftp
-    global sftp_variables
+    global sftp_variables_pst_per
 
     try:
         log_success_msg(pattern,"Accessing the Env variables")
         source_path_sftp = [bk_values[0],bk_values[1]]
         log_success_msg(pattern,"Getting SFTP Infomation")
-        sftp_variables = {
-            "Destination_absolute_path_IBS" : os.environ['IBS_SFTP_PATH'],
+        sftp_variables_pst_per = {
+            "Absolute_path_IBS" : os.environ['IBS_SFTP_PATH'],
             "SSH_Key" : os.environ['POL_SECRET_ARN'],
-            "SFTP_Host" : os.environ['POL_SFTP_HOST'],
-            "SFTP_Port" : os.environ['POL_SFTP_PORT'],
+            "SFTP_Host_" : os.environ['POL_SFTP_HOST'],
+            "SFTP_Port_" : os.environ['POL_SFTP_PORT'],
             "SFTP_USR_NAME" : os.environ['POL_SFTP_USER_NAME'],
             "Region" : os.environ['REGION']
             }
-        secret_client_info = boto3.client('secretsmanager', region_name=sftp_variables["Region"])
-        client_private_key = secret_client_info.get_secret_value(SecretId=sftp_variables["SSH_Key"])
-        private_key_sftp = client_private_key['SecretString']
+        secret_client_info = boto3.client('secretsmanager',
+        region_name=sftp_variables_pst_per["Region"])
+        client_key = secret_client_info.get_secret_value(SecretId=sftp_variables_pst_per["SSH_Key"])
+        private_key_sftp = client_key['SecretString']
         log_success_msg(pattern,"SFTP Variables values fetched successfully")
     except Exception as e:
         log_error_msg(pattern,"fc_dtl_per_ext-XML-500-0006",
@@ -115,8 +116,8 @@ def ftl_decode():
     """
     global data_string
     try:
-        obj = s3_client.get_object(Bucket=bk_values[0], Key=bk_values[1])
-        data_string = obj['Body'].read().decode()
+        obj_per = s3_client.get_object(Bucket=bk_values[0], Key=bk_values[1])
+        data_string = obj_per['Body'].read().decode()
     except Exception as e:
         log_error_msg(pattern,"fc_dtl_per_ext-XML-500-0003",
                         error_codes['fc_dtl_per_ext-XML-500-0003'])
@@ -131,10 +132,10 @@ def ftl_info():
     try:
         log_success_msg(pattern,"Extracting S3 bucket information and SQS Event information")
         s3_event = json.loads(EVENT['Records'][0]['body'])
-        bucket = s3_event['Records'][0]['s3']['bucket']['name']
-        key = s3_event['Records'][0]['s3']['object']['key']
-        bk_values = [bucket,key]
-        log_success_msg(pattern,"Output File: "+str(key))
+        bucket_ = s3_event['Records'][0]['s3']['bucket']['name']
+        key_ = s3_event['Records'][0]['s3']['object']['key']
+        bk_values = [bucket_,key_]
+        log_success_msg(pattern,"Output File: "+str(key_))
 
     except Exception as e:
         log_error_msg(pattern,"fc_dtl_per_ext-XML-500-0036",

@@ -9,12 +9,12 @@ from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.batch_general_
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.meta_data import ActionTypes
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.common import BaseDetails
 
-cons_path = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
+cons_path_pst = 'src/lambda_functions/fc_dtl_pst_ext_process_lambda/'
 config = configparser.RawConfigParser()
-config.read(cons_path+'constants.properties')
+config.read(cons_path_pst+'constants.properties')
 constants = config['CONSTANTS']
-link=constants['link']
-__NAMESPACE__ = link
+link_pst=constants['link']
+__NAMESPACE__ = link_pst
 
 @dataclass
 class BatchDetails(BaseDetails):
@@ -31,7 +31,7 @@ class BatchDetails(BaseDetails):
         """meta
         """
         name = "batchDetails"
-        namespace = link
+        namespace = link_pst
 
     batch_type: Optional[str] = field(
         default=None,

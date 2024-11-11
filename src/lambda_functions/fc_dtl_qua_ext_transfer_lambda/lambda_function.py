@@ -30,7 +30,7 @@ pattern['level']= 'INFO'
 pattern['unique_id']= "fc-dtl-qua-ext_" + f'{current_date}'
 
 
-def send():
+def send_qua():
     """
     Connect to IBS Remote server and put the file
     """
@@ -50,7 +50,7 @@ def send():
                       error_codes['fc-dtl-qua-ext-XML-500-0071'])
         raise e
 
-def connection():
+def connection_qua():
     """
     Establish an SFTP connection using Pramiko with SFTP connection variables and private key.
     """
@@ -70,7 +70,7 @@ def connection():
                       error_codes['fc-dtl-qua-ext-XML-500-0007'])
         raise e
 
-def access():
+def access_qua():
     """
        Accessing the configuration file to fetch the information of source and client
     """
@@ -99,7 +99,7 @@ def access():
                       error_codes['fc-dtl-qua-ext-XML-500-0006'])
         raise e
 
-def decode():
+def decode_qua():
     """
     retrieves obj from s3 bucket using the s3_client and
     it decodes the content into string and stores in the global variable 'data_string'
@@ -115,7 +115,7 @@ def decode():
                         error_codes['fc-dtl-qua-ext-XML-500-0003'])
         raise e
 
-def info():
+def info_qua():
     """
     Decoding message and extracting information from SQS
     """
@@ -135,7 +135,7 @@ def info():
         raise e
 
 
-def check_null():
+def check_null_qua():
     """
     checking file is empty or not
     """
@@ -144,7 +144,7 @@ def check_null():
                       error_codes['fc-dtl-qua-ext-XML-300-0004'])
         raise ValueError("File is empty")
     #else:
-    access()
+    access_qua()
 
 def lambda_handler(eve,context):
     """
@@ -157,8 +157,8 @@ def lambda_handler(eve,context):
     lambda_name = context.function_name
     #Connecting with AWS
     log_success_msg(pattern,"Acquring S3 Service")
-    info()
-    decode()
-    check_null()
-    connection()
-    return send()
+    info_qua()
+    decode_qua()
+    check_null_qua()
+    connection_qua()
+    return send_qua()

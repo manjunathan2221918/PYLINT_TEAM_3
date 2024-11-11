@@ -21,20 +21,21 @@ config = configparser.RawConfigParser()
 config.read(ERROR_PATH_314+'errorcodes.properties')
 error_codes = config['ERROR_CODES']
 config.read(CONSTANT_PATH_314+'constants.properties')
-constants = config['CONSTANTS']
 
-start = constants ['batchstart']
-end = constants ['batchend']
-schema_version = constants ['schema_Version']
-action_type = constants ['action_type']
-proprietary_notice=constants['proprietarynotice']
-link=constants['link']
-batchType=constants['batchType']
-originator=constants['originator']
-airline=constants['airline']
-destination=constants['destination']
-company= constants ['company']
-tenant=constants ["tenant"]
+constants_per = config['CONSTANTS']
+start = constants_per['batchstart']
+end = constants_per['batchend']
+schema_version = constants_per['schema_Version']
+action_type = constants_per['action_type']
+proprietary_notice=constants_per['proprietarynotice']
+link=constants_per['link']
+batchType=constants_per['batchType']
+originator=constants_per['originator']
+
+airline=constants_per['airline']
+destination=constants_per['destination']
+company= constants_per['company']
+tenant=constants_per["tenant"]
 
 MESSAGE_REFERENCE=str(uuid.uuid4())
 BATCH_REFERENCE=str(uuid.uuid4())
