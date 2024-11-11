@@ -25,12 +25,12 @@ config.read(CONSTANT_PATH_314+'constants.properties')
 constants_per = config['CONSTANTS']
 start = constants_per['batchstart']
 end = constants_per['batchend']
-schema_version = constants_per['schema_Version']
+schema_version_per = constants_per['schema_Version']
 action_type = constants_per['action_type']
 proprietary_notice=constants_per['proprietarynotice']
 link=constants_per['link']
 batchType=constants_per['batchType']
-originator=constants_per['originator']
+originator_per=constants_per['originator']
 
 airline=constants_per['airline']
 destination=constants_per['destination']
@@ -58,12 +58,12 @@ def element_string(element):
 def batch(action):
     "function to add batch deatils"
     return ET.Element ("batchDetails",{
-                'schemaVersion': schema_version,
+                'schemaVersion': schema_version_per,
                 'actionType': action,
                 'messageReference':MESSAGE_REFERENCE,
                 'batchReference':BATCH_REFERENCE,
                 'timestamp': create_timestamp(datetime.now(timezone.utc)),
-                'originator': originator,
+                'originator': originator_per,
                 'company':company,
                 'tenant': tenant,
                 'destination': destination,
@@ -74,11 +74,11 @@ def batch(action):
 def crew_header():
     "function to add crewdetails"
     return ET.Element('crewDetails',{
-        'schemaVersion':schema_version,
+        'schemaVersion':schema_version_per,
         'actionType':action_type,
         'messageReference':"CREW_SCHED_"+str(datetime.now(timezone.utc).timestamp()),
         'timestamp':create_timestamp(datetime.now(timezone.utc)),
-        'originator':originator,
+        'originator':originator_per,
         "proprietaryNotice":proprietary_notice ,
         "xmlns": link
         })
@@ -104,33 +104,33 @@ def main_function(s3_event):
         log_error_msg(pattern,"fc_dtl_per_ext-XML-300-0004", error_codes['fc_dtl_per_ext-XML-300-0004'])
         raise ValueError('File is empty')
     log_success_msg(pattern,"File has Valid data")
-    root =fromstring(data_string)
+    root_tg =fromstring(data_string) #
     crew_details=[]
 
     #Batch Header part
-    batchstart=batch(start)
+    batchstart=batch(start) #
     ET.SubElement(batchstart,'batchType').text=batchType
-    crew_details.append(batchstart)
+    crew_details.append(batchstart) #
 
     # crewdetails part
-    crew_iterator = crew_iterate(root,key,crew_details)
+    crew_iterator = crew_iterate(root_tg,key,crew_details)
 
     #Batch End part
-    batchend=batch(end)
+    batchend_var=batch(end)
     messagecount=len(crew_details)+1
-    ET.SubElement(batchend,'batchType').text=batchType
-    ET.SubElement(batchend,'totalMessageCount').text=str(messagecount)
+    ET.SubElement(batchend_var,'batchType').text=batchType
+    ET.SubElement(batchend_var,'totalMessageCount').text=str(messagecount)
 
-    crew_details.append(batchend)
+    crew_details.append(batchend_var)
 
     #checks any valid crew count
     file_write(messagecount,crew_details)
-    return_main = [str(batchstart), str(crew_iterator),str(batchend), "File Processing Complete"]
+    return_main = [str(batchstart), str(crew_iterator),str(batchend_var), "File Processing Complete"]
     return return_main
 
-def crew_iterate(root,key,crew_details):
+def crew_iterate(root_tg,key,crew_details):
     "function to iterate every crew"
-    for item in root.findall('FlightCrewData'):
+    for item in root_tg.findall('FlightCrewData'):
         crewdetails=crew_header()
 
         #check crew id field is present or not

@@ -2,7 +2,8 @@
 """
 #pylint: disable=unused-import,too-few-public-methods,import-error,too-many-instance-attributes,too-few-public-methods,invalid-name
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Optional as Op
+from typing import List
 import configparser
 from xsdata.models.datatype import XmlDateTime
 from src.lambda_functions.fc_dtl_pst_ext_process_lambda.generated.general_types import (
@@ -54,7 +55,7 @@ class BatchAttribute:
     :ivar parameters: Additional customer specific parameters for the
         BatchAttribute
     """
-    crew_type: Optional[CrewTypes] = field(
+    crew_type: Op[CrewTypes] = field(
         default=None,
         metadata={
             "name": "crewType",
@@ -62,7 +63,7 @@ class BatchAttribute:
             "namespace": link,
         }
     )
-    crew_ids: Optional["BatchAttribute.CrewIds"] = field(
+    crew_ids: Op["BatchAttribute.CrewIds"] = field(
         default=None,
         metadata={
             "name": "crewIds",
@@ -70,28 +71,28 @@ class BatchAttribute:
             "namespace": link,
         }
     )
-    fleets: Optional["BatchAttribute.Fleets"] = field(
+    fleets: Op["BatchAttribute.Fleets"] = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": link,
         }
     )
-    bases: Optional["BatchAttribute.Bases"] = field(
+    bases: Op["BatchAttribute.Bases"] = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": link,
         }
     )
-    ranks: Optional["BatchAttribute.Ranks"] = field(
+    ranks: Op["BatchAttribute.Ranks"] = field(
         default=None,
         metadata={
             "type": "Element",
             "namespace": link,
         }
     )
-    from_date_time: Optional[XmlDateTime] = field(
+    from_date_time: Op[XmlDateTime] = field(
         default=None,
         metadata={
             "name": "fromDateTime",
@@ -99,7 +100,7 @@ class BatchAttribute:
             "namespace": link,
         }
     )
-    to_date_time: Optional[XmlDateTime] = field(
+    to_date_time: Op[XmlDateTime] = field(
         default=None,
         metadata={
             "name": "toDateTime",
@@ -107,7 +108,7 @@ class BatchAttribute:
             "namespace": link,
         }
     )
-    roster_period: Optional[str] = field(
+    roster_period: Op[str] = field(
         default=None,
         metadata={
             "name": "rosterPeriod",
@@ -117,7 +118,7 @@ class BatchAttribute:
             "max_length": 20,
         }
     )
-    parameters: Optional[Parameters] = field(
+    parameters: Op[Parameters] = field(
         default=None,
         metadata={
             "type": "Element",
