@@ -38,7 +38,7 @@ bk_values = None
 sftp_sender = None
 transport_layer = None
 
-def send():
+def ftl_send():
     """
     Connect to IBS Remote server and put the file
     """
@@ -59,7 +59,7 @@ def send():
                       error_codes['fc_dtl_per_ext-XML-500-0071'])
         raise e
 
-def connection():
+def ftl_connection():
     """
     Establish an SFTP connection using Pramiko with SFTP connection variables and private key.
     """
@@ -79,7 +79,7 @@ def connection():
                       error_codes['fc_dtl_per_ext-XML-500-0007'])
         raise e
 
-def access():
+def ftl_access():
     """
     Accessing the configuration file to fetch the information of source and client
     """
@@ -108,7 +108,7 @@ def access():
                       error_codes['fc_dtl_per_ext-XML-500-0006'])
         raise e
 
-def decode():
+def ftl_decode():
     """
     retrieves obj from s3 bucket using the s3_client and
     it decodes the content into string and stores in the global variable 'data_string'
@@ -122,7 +122,7 @@ def decode():
                         error_codes['fc_dtl_per_ext-XML-500-0003'])
         raise e
 
-def info():
+def ftl_info():
     """
     Decoding message and extracting information from SQS
     """
@@ -142,7 +142,7 @@ def info():
         raise e
 
 # checkig file is empty or not
-def check_null():
+def ftl_check_null():
     """
     checkig file is empty or not
     """
@@ -151,7 +151,7 @@ def check_null():
                       error_codes['fc_dtl_per_ext-XML-300-0004'])
         raise ValueError("File is empty")
     #else:
-    access()
+    ftl_access()
 
 def lambda_handler(eve, context):
     """
@@ -165,8 +165,8 @@ def lambda_handler(eve, context):
     s3_client = boto3.client('s3')
     log_success_msg(pattern,"Acquring S3 Service")
 
-    info()
-    decode()
-    check_null()
-    connection()
-    return send()
+    ftl_info()
+    ftl_decode()
+    ftl_check_null()
+    ftl_connection()
+    return ftl_send()
